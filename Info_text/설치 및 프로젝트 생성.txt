@@ -1,0 +1,82 @@
+Windows 환경에서 NestJS를 개발하기 위한 설치 과정
+
+1. NestJS 설치 사전 준비
+Node.js (npm) 설치
+
+Node.js 다운로드 에서 Node.js 인스톨러를 다운받아 Node.js를 설치합니다.
+
+Visual studio code 설치
+본 강좌에서는 IDE로 Visual studio code를 사용할 예정이므로 Visual studio code 다운로드 에서 VS code 인스톨러를 다운받아 VS code를 설치합니다.
+
+2. NestJS CLI 설치
+명령 프롬프트(cmd)를 열고 npm을 사용하여 NestJS CLI (Command Line Interface)를 전역으로 설치합니다. 다음 명령어를 입력합니다:
+
+$ npm install -g @nestjs/cli
+3. NestJS CLI 프로젝트 생성
+명령 프롬프트(cmd)에서 앞서 설치한 NestJS CLI를 통해 프로젝트를 생성합니다.
+
+본 예제에서는 tutorial-02-setting 라는 project 이름으로 프로젝트를 생성했습니다.
+
+$ nest new tutorial-02-setting
+Package Manager로 어느 것을 사용할지 선택합니다.
+
+npm 혹은 yarn을 많이 사용하는데 본 강좌에선 npm을 사용하였습니다.
+(참조: npm vs yarn vs pnpm)
+
+다음과 같은 보일러 플레이트 코드가 작성되었습니다.
+
+├─ dist
+├─ node_modules
+├─ .eslintrc.js
+├─ src
+│  ├─ app.controller.spec.ts
+│  ├─ app.controller.ts
+│  ├─ app.module.ts
+│  ├─ app.service.ts
+│  └─ main.ts
+├─ test
+│  ├─ app.e2e-spec.ts
+│  └─ jest-e2e.json
+├─ .gitignore
+├─ .prettierrc
+├─ nest-cli.json
+├─ package-lock.json
+├─ package.json
+├─ README.md
+├─ tsconfig.build.json
+└─ tsconfig.json
+
+4. 폴더 구조
+생성된 프로젝트의 구조는 다음과 같습니다.
+
+dist
+TypeScript 코드를 컴파일하여 JavaScript로 변환된 파일들이 저장되는 폴더
+
+런타임에서 사용됩니다
+
+node_modules
+package.json에 정의된 의존성 패키지들이 저장되는 폴더
+
+src
+Typescript 소스 코드가 저장되는 폴더
+
+app.controller.spec.ts: 애플리케이션 컨트롤러에 대한 유닛 테스트를 위한 파일
+app.controller.ts: HTTP Request를 처리하고 Response를 보냄
+app.module.ts: 애플리케이션의 Module(Controller와 Service)을 정의
+app.service.ts: 비즈니스 로직을 수행하거나 데이터를 처리
+main.ts: 애플리케이션의 진입점 파일(Entry point)로, NestFactory를 사용하여 애플리케이션을 시작
+test
+테스트 코드가 저장되는 폴더
+
+app.e2e-spec.ts: 애플리케이션의 end to end(e2e) 테스트를 위한 파일
+jest-e2e.json: end to end 테스트에 관한 설정 파일
+others
+nest-cli.json: NestJS CLI의 설정 파일로, 프로젝트 설정과 관련된 내용을 포함하는 파일
+package-lock.json: npm 패키지의 의존성 트리와 버전 정보를 포함하는 파일
+package.json: 프로젝트 정보, 의존성 패키지 목록, 스크립트 등을 포함하는 npm 설정 파일
+tsconfig.build.json: TypeScript 빌드 설정 파일로, Production 환경에서 사용되는 TypeScript 컴파일러 옵션을 설정
+tsconfig.json: TypeScript 프로젝트 설정 파일로, TypeScript 컴파일러 옵션을 설정
+5. 서버 실행
+다음 명령어를 통해 서버를 동작시켜봅시다.
+
+$ npm run start
