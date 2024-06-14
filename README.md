@@ -32,3 +32,6 @@ npm cache clean	                yarn cache clean	                    캐쉬 삭�
 npm으로 nodemon설치
 실시간으로 스크립트 파일을 디버깅 할 수 있는 패키지입니다.
 npm install --global nodemon
+
+
+2024-06-14
