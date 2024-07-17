@@ -381,3 +381,10 @@ export class User {
   @OneToMany(type => Photo, photo => photo.user)
   photos: Photo[];
 }
+
+CRUD 대신에 다음과 같은 유사용어가 사용되기도 한다.
+
+- ABCD: add(추가), browse(보기), change(변경), delete(삭제)
+- ACID: add(추가), change(변경), inquire(질의), delete(삭제)
+- BREAD: browse(보기), read(읽기), edit(편집), add(추가), delete(삭제)
+- VADE(R): view(참조), add(추가), delete(삭제), edit(편집), 트랜잭션 처리에서는 restore(복원) 추가

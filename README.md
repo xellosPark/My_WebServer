@@ -1,5 +1,6 @@
 1. npm install -g @nestjs/cli
-2. nest new project-name
+
+2. nest new project-name (2. nest new ./ ) <- 해당 폴더
 
 3. 모듈 추가 
  - nest g module boards
@@ -32,6 +33,3 @@ npm cache clean	                yarn cache clean	          캐쉬 삭제
 npm으로 nodemon설치
 실시간으로 스크립트 파일을 디버깅 할 수 있는 패키지입니다.
 npm install --global nodemon
-
-
-2024-06-14
