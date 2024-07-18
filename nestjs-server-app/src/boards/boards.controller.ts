@@ -1,7 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { Board, BoardStatus } from './board.model';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/creact-board.dto';
+import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 
 // const log = (message: string) => {
 //   const timestamp = new Date().toISOString();
@@ -63,7 +74,7 @@ export class BoardsController {
   }
 
   //localhost:3012?id=test
- 
+
   // CURD -> R 부분 Read
   @Get('/:id')
   getBoardById(@Param('id') id: string): Board {
@@ -80,10 +91,8 @@ export class BoardsController {
   @Patch('/:id/status')
   updateBoardStatus(
     @Param('id') id: string,
-    @Body('status') status: BoardStatus,
-   ) {
+    @Body('status', BoardStatusValidationPipe) status: BoardStatus,
+  ) {
     return this.boardsService.updateBoardStatus(id, status);
   }
-
-
 }
