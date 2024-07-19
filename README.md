@@ -21,6 +21,16 @@
 참조
 - https://github.com/typestack/class-validator#manual-validation
 
+8. TypeORM을 사용하기 위해서 설치해야하는 모듈
+@nestjs/typeorm
+ -Nest.js에서 TypeOrm을 사용하기 위해 연동
+npm install pg typeorm @nestjs/typeorm --save
+
+typeorm
+ - TypeORM 모듈
+
+ pg
+  -pgstgres 모듈
 
 
 npm & yarn명령어 복습

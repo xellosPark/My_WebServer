@@ -273,3 +273,81 @@ function getItemOption<T extends keyof Item>(itemOption: T): T {
 
 // 'name', 'price', 'stock'만 인자로 사용 가능
 getShoppingItemOption('price');
+
+
+extends (상속)
+사실 extends가 상속의 대표적인 형태다.
+부모의 메소드를 그대로 사용할 수 있으며 오버라이딩 할 필요 없이 부모에 구현되있는 것을 직접 사용 가능하다.
+class Vehicle {
+  protected int speed = 3;
+  
+  public int getSpeed(){
+    return speed;
+  }
+  public void setSpeed(int speed){
+    this.speed = speed;
+  }
+}
+
+class Car extends Vehicle{
+  public void printspd(){
+    System.out.println(speed);
+  }
+}
+
+public class ExtendsSample {
+  public static main (String[] args){
+    Car A = new Car();
+    System.out.println(A.getSpeed());
+    A.printspd();
+  }
+}
+Car라는 클래스는 Vehicle을 상속 받았다. 그리고 getSpeed() 메소드로 speed를 print 했다.
+그런데 vehicle의 getSpeed 메소드에서 speed를 직접 바로 사용했다. extends를 했으니 메소드 뿐만 아니라 변수까지 사용이 가능해 지는 것이다.
+여기서 접근 제어자에 대해 다시 설명하지면.....
+
+public	protected	default	private
+All	상속 OR 동일패키지	상속 && 동일패키지	클래스 내부
+그리고 하나 더 짚고 가자면....
+자바는 "다중상속"을 지원하지 않는다는 점이다.
+
+다중상속이란 부모클래스가 두개 이상 존재할 수 있다는 것인데, 자바에서는 이를 지원하지 않는다. 즉 , public class Son extends Father, Mother{...} 이것이 지원하되지 않는다는 것이다.
+
+자바는 다중상속을 지원하지 않는다. 대신 implements(인터페이스)가 등장했다.
+
+implements (상속)
+interface TestInterface{
+  public static int num = 8;
+  public void fun1();
+  public void fun2();
+}
+
+class InterfaceExam implements TestInterface{
+  @Override
+  public void fun1(){
+    System.out.println(num);
+  }
+  
+  @Override
+  public void fun2() {
+    
+  }
+}
+
+public class InterfaceSample{
+  public static void main(String args[]){
+    InterfaceExam exam = new InterfaceExam();
+    exam.fun1();
+  }
+}
+implements의 가장 큰 특징은 이렇게 부모의 메소드를 반드시 오버라이딩(재정의)해야 한다.
+
+또한 이 implements는 다중상속을 대신해준다.
+
+public class Son implements Father, Mother{...}
+이러한 형태로 말이다.
+
+근데 "이러한 구현은 메소드를 어차피 재정의해야되니 '상속'의 의미가 아니지 않냐?" 이런 의문이 들 수 있다. 제가 그랬습니다.
+참고 사이트의 키가 크고픈 프로그래머님의 말을 빌려쓰자면 " 사실 저도 이걸 진정한 상속이라고 생각하지는 않습니다만 자바가 그렇다는데 어쩌겠습니까....
+단, 어느정도 이해하시는데 도움을 드리자면, Java와 C#의 인터페이스 상속은 계약 및 분류의 의미가 강합니다."
+네 그렇다고 합니다.
