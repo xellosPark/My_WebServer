@@ -1,5 +1,7 @@
 import { BadGatewayException, PipeTransform } from '@nestjs/common';
-import { BoardStatus } from '../board.model';
+// import { BoardStatus } from '../board.model';
+import { BoardStatus } from '../board-status.enum';
+
 
 export class BoardStatusValidationPipe implements PipeTransform {
   // readonly 읽기만 가능한 값 -> 값 변경 안됨
