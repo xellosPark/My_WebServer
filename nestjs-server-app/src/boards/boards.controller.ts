@@ -145,4 +145,20 @@ import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe'
   deleteBoard(@Param('id', ParseIntPipe) id: number): Promise <void> {
     return this.boardsService.delectBoard(id);
   }
+
+  // CURD -> U 부분 Updata
+  @Patch('/:id/status')
+  updateBoardStatus(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('status', BoardStatusValidationPipe) status: BoardStatus,
+  ) {
+    return this.boardsService.updateBoardStatus(id, status);
+  }
+
+  // CURD -> R 부분 Read
+  // All Data
+  @Get('/')
+  getAllBoard(): Promise<Board[]> {
+    return this.boardsService.getAllBoards();
+  }
 }

@@ -202,4 +202,18 @@ export class BoardsService {
 
     console.log('result',result);
   }
+
+  async updateBoardStatus( id: number, status: BoardStatus): Promise<Board> {
+    const board = await this.getBoardById(id);
+    board.status = status;
+    await this.boardRepository.save(board);
+    return board;
+  }
+
+  //find()인자가 없는경우에 전체 찾기
+  // query: SELECT "Board"."id" AS "Board_id", "Board"."title" AS "Board_title",
+  // "Board"."description" AS "Board_description", "Board"."status" AS "Board_status" FROM "board" "Board"
+  async getAllBoards(): Promise <Board[]> {
+     return this.boardRepository.find();
+  }
 }
