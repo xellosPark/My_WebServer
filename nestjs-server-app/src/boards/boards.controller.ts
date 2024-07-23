@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   UsePipes,
@@ -124,6 +125,7 @@ import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe'
   // CURD -> C 부분 Creat Dto 이용방법
   @Post()
   // Handler-level Pipes
+  // ValidationPipe는 Board의 DTO에서 지정한 유효성을 검사하는 역할을 한다.
   @UsePipes(ValidationPipe)
   createBoard(@Body() createBoardDto: CreateBoardDto):  Promise <Board> {
     return this.boardsService.createBoard(createBoardDto);
@@ -133,5 +135,14 @@ import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe'
   @Get('/:id')
   getBoardById(@Param('id') id: number): Promise <Board> {
     return this.boardsService.getBoardById(id);
+  }
+
+  
+  // CURD -> D 부분 Delete
+  // @Param('id', ParseIntPipe) 데코레이터를 사용하여 id 파라미터에 ParseIntPipe 파이프를 바인딩합니다.
+  // 이렇게 하면 id 파라미터가 정수로 변환되어 라우트 핸들러에 전달됩니다.
+  @Delete('/:id')
+  deleteBoard(@Param('id', ParseIntPipe) id: number): Promise <void> {
+    return this.boardsService.delectBoard(id);
   }
 }

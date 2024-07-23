@@ -170,9 +170,36 @@ export class BoardsService {
 
   async getBoardById(id: number): Promise<Board> {
     const found = await this.boardRepository.findOne({ where: { id } });
-      if (!found) {
-        throw new NotFoundException(`Can't find Board with id ${id}`);
-      }
-      return found;
+    if (!found) {
+      throw new NotFoundException(`Can't find Board with id ${id}`);
     }
+    return found;
+  }
+
+  async delectBoard(id: number): Promise<void>{
+    //remove 진행할라면 DB id가 먼저 있는지 검사 해야한다. 없는 경우에 오류 발생
+    // const board = await this.boardRepository.findOne({ where: { id } });
+    // if (board) {
+    //   await this.boardRepository.remove(board);
+    // } else {
+    //   throw new Error(`Board with ID ${id} not found`);
+    // }
+
+    //Delete 만약 아이템이 존재하면 지우고 존재하지 않으면 아무런 영향을 없다.
+    const result = await this.boardRepository.delete(id);
+
+    //query: DELETE FROM "board" WHERE "id" IN ($1) -- PARAMETERS: [333]
+    //result DeleteResult { raw: [], affected: 0 } // Db에 없는 경우
+    //query: DELETE FROM "board" WHERE "id" IN ($1) -- PARAMETERS: [3]
+    //result DeleteResult { raw: [], affected: 1 }//Db에 1개 경우
+    //affected: DB에서 작업 raw 수
+
+    //DB에 없는 경우에 오류 clinet 에게 오류 메세지 
+    if( result.affected === 0 ) {
+      throw new NotFoundException(`Can't find Board with id ${id}`)
+    }
+
+
+    console.log('result',result);
+  }
 }
