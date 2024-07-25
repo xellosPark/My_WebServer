@@ -1,7 +1,7 @@
 // import { EntityRepository, Repository } from 'typeorm';
 // import { Board } from './board.entity';
 
-// @EntityRepository(Board)
+// @EntityRepository(Board) 사용시 오류발생
 // export class BoardRepository extends Repository<Board> {
 //   // 사용자 정의 메소드 추가 가능
 // }
@@ -26,5 +26,4 @@ export class BoardRepository extends Repository<Board> {
     await this.save(board);
     return board;
   }
-
 }
