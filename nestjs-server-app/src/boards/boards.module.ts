@@ -22,21 +22,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BoardsController } from './boards.controller';
 import { BoardsService } from './boards.service';
 import { Board } from './board.entity';
-import { BoardRepository } from './board.repository';
-import { DataSource } from 'typeorm';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Board])],
   controllers: [BoardsController],
-  providers: [
-    BoardsService,
-    {
-      provide: 'BOARD_REPOSITORY',
-      useFactory: (dataSource: DataSource) => {
-        return new BoardRepository(dataSource);
-      },
-      inject: [DataSource],
-    },
-  ],
+  providers: [BoardsService],
 })
 export class BoardsModule {}
