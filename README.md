@@ -26,6 +26,15 @@
  -Nest.js에서 TypeOrm을 사용하기 위해 연동
 npm install pg typeorm @nestjs/typeorm --save
 
+9. 비밀 번호 암호화 관련
+npm install bcryptjs —save
+
+10. jwt를 사용 토큰 생성하는
+npm install @nestjs/jwt @nestjs/passport passport passport-jwt --save
+
+11. passport-jwt 모듈으 위한 타입 정의 모듈
+npm install @types/passport-jwt --save
+
 typeorm
  - TypeORM 모듈
 
@@ -48,6 +57,8 @@ npm cache clean	                yarn cache clean	          캐쉬 삭제
 npm으로 nodemon설치
 실시간으로 스크립트 파일을 디버깅 할 수 있는 패키지입니다.
 npm install --global nodemon
+
+
 
 
 📢 DTO란 무엇인가요?  
