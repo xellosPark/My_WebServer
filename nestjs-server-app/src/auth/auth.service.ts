@@ -1,7 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { UserRepository } from './user.repository';
+import * as bcrypt from 'bcryptjs'
 
 // TypeORM의 데코레이터인 @InjectRepository()는 일반적인 @Injectable() 데코레이터와 비슷하게 의존성 주입을 위한 데코레이터입니다. 
 // 하지만 그 둘의 목적이 조금 다릅니다. @Injectable()은 NestJS에서 만든 클래스를 의존성 주입 가능하게 만드는 데코레이터입니다.
@@ -19,7 +20,23 @@ export class AuthService {
         private readonly userRepository: UserRepository,
     ) {}
 
+    // 새로 생성
     async signup(authCredentialsDto:AuthCredentialsDto): Promise<void> {
         return this.userRepository.createUser(authCredentialsDto);
+    }
+
+    // Login 확인
+    async signIn(authCredentialsDto:AuthCredentialsDto): Promise<string> {
+        const { username, password } = authCredentialsDto;
+        const user = await this.userRepository.findOne({ where: { username } });
+
+         // 콘솔 로그 추가
+        console.log('Attempting login for user:', username);
+
+        if(user && (await bcrypt.compare(password, user.password))) {
+            return 'Login success';
+        } else {
+            throw new UnauthorizedException('Login failed');
+        }
     }
 }
