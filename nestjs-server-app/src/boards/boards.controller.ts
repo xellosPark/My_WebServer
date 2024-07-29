@@ -1,21 +1,13 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe,} from '@nestjs/common';
 // import { Board, BoardStatus } from './board.model';
 import { BoardStatus } from './board-status.enum';
 import { Board } from './board.entity';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/creact-board.dto';
 import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/auth/get-user.decorator';
+import { User } from 'src/auth/user.entity';
 
 // const log = (message: string) => {
 //   const timestamp = new Date().toISOString();
@@ -118,6 +110,7 @@ import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe'
     구성
  */
   @Controller('boards')
+  @UseGuards(AuthGuard())
   export class BoardsController {
     constructor(private boardsService: BoardsService) {}
 
@@ -127,8 +120,13 @@ import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe'
   // Handler-level Pipes
   // ValidationPipe는 Board의 DTO에서 지정한 유효성을 검사하는 역할을 한다.
   @UsePipes(ValidationPipe)
-  createBoard(@Body() createBoardDto: CreateBoardDto):  Promise <Board> {
-    return this.boardsService.createBoard(createBoardDto);
+  createBoard(@Body() createBoardDto: CreateBoardDto, @GetUser() user:User ):  Promise <Board> {
+    
+     // createBoardDto와 user의 내용을 
+     console.log('createBoardDto:', createBoardDto);
+     console.log('user:', user);
+    
+    return this.boardsService.createBoard(createBoardDto, user);
   }
 
   // CURD -> R 부분 Read

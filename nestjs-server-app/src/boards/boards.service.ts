@@ -144,6 +144,7 @@ import { CreateBoardDto } from './dto/creact-board.dto';
 import { Board } from './board.entity';
 import { BoardStatus } from './board-status.enum';
 import { BoardRepository } from './board.repository';
+import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class BoardsService {
@@ -166,8 +167,16 @@ export class BoardsService {
   //  return board;
   // }
 
-  createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
-    return this.boardRepository.createBoard(createBoardDto);
+  createBoard(createBoardDto: CreateBoardDto, user:User ): Promise<Board> {
+    
+    // 콘솔 로그 추가: DTO와 사용자 정보 출력
+    console.log('createBoardDto:', createBoardDto);
+    console.log('user:', user);
+
+    // boardRepository.createBoard 메소드 호출 전에 로그 남기기
+    console.log('Calling boardsRepository.createBoard');
+
+    return this.boardRepository.createBoard(createBoardDto, user);
   } 
 
   async getBoardById(id: number): Promise<Board> {

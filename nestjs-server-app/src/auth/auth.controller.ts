@@ -2,6 +2,8 @@ import { Body, Controller, Delete, Get, Param, Req, ParseIntPipe, Patch, Post, U
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from './get-user.decorator';
+import { User } from './user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -14,6 +16,7 @@ export class AuthController {
     }
 
     //http://localhost:3012/auth/signin?username=%ED%99%8D%EA%B8%B8%EB%8F%993&password=1234
+    //http://localhost:3012/auth/signin?username=홍길동1&password=1234
     @Post('/signin')
     async signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<{accessToken: string}> {
         return this.authService.signIn(authCredentialsDto);
@@ -21,7 +24,11 @@ export class AuthController {
 
     @Post('/test')
     @UseGuards(AuthGuard('jwt')) // 'jwt' 전략을 명시적으로 지정
-    test(@Req() req) {
-        console.log('req', req.user); // 인증된 사용자의 정보를 출력
+    //test(@Req() req) {
+        //console.log('req', req); // 인증된 사용자의 정보를 출력
+    //    console.log('req', req.user); // 인증된 사용자의 정보를 출력
+    //}
+    test(@GetUser() user: User){
+        console.log('user',user);
     }
 }

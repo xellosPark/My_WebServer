@@ -22,10 +22,24 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BoardsController } from './boards.controller';
 import { BoardsService } from './boards.service';
 import { Board } from './board.entity';
+import { AuthModule } from 'src/auth/auth.module';
+import { BoardRepository } from './board.repository';
+import { DataSource } from 'typeorm'; // DataSource 가져오기
+
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Board])],
+  imports: [
+    TypeOrmModule.forFeature([Board]),// Board 엔티티를 등록하여 리포지토리 사용 가능
+    AuthModule
+],
   controllers: [BoardsController],
-  providers: [BoardsService],
+  providers: [
+    BoardsService,
+    {
+      provide: 'BoardRepository',
+      useFactory: (dataSource: DataSource) => new BoardRepository(dataSource),
+      inject: [DataSource],
+    },
+  ],
 })
 export class BoardsModule {}

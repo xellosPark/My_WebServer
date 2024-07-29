@@ -5,9 +5,7 @@ import { ConflictException, InternalServerErrorException, } from '@nestjs/common
 import * as bcrypt from 'bcryptjs';
 
 export class UserRepository extends Repository<User> {
-    constructor(dataSource: DataSource) {
-        super(User, dataSource.createEntityManager());
-    }
+
     // INSERT INTO "user"("username", "password") VALUES ($1, $2) RETURNING "id" -- PARAMETERS: ["홍기동","1234"]
     async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
         const { username, password } = authCredentialsDto;
