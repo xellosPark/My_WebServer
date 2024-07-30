@@ -5,10 +5,18 @@ import { ConflictException, InternalServerErrorException, } from '@nestjs/common
 import * as bcrypt from 'bcryptjs';
 
 export class UserRepository extends Repository<User> {
+    constructor(dataSource: DataSource) {
+        // DataSource를 사용하여 UserRepository를 초기화
+        super(User, dataSource.manager);
+      }
 
     // INSERT INTO "user"("username", "password") VALUES ($1, $2) RETURNING "id" -- PARAMETERS: ["홍기동","1234"]
     async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
         const { username, password } = authCredentialsDto;
+
+        // 콘솔 로그 추가: 입력된 사용자 이름과 비밀번호 출력
+        console.log('Received username:', username);
+        console.log('Received password:', password);
 
         // bcrypt 이용하여 비밀번호 숨기기
         // 솔트

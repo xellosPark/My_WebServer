@@ -16,32 +16,38 @@ import { User } from './user.entity';
 export class AuthService {
     constructor(
 
-       // [Nest] 56312  - 2024. 07. 23. 오후 2:10:49   ERROR [ExceptionsHandler] this.userRepository.createUser is not a function
-       // @InjectRepository(UserRepository) 오류발생
-       @InjectRepository(User)
+        // [Nest] 56312  - 2024. 07. 23. 오후 2:10:49   ERROR [ExceptionsHandler] this.userRepository.createUser is not a function
+        // @InjectRepository(UserRepository) 오류발생
+        @InjectRepository(User)
         private readonly userRepository: UserRepository,
         private jwtService: JwtService
     ) { }
 
     // 새로 생성
-    async signup(authCredentialsDto:AuthCredentialsDto): Promise<void> {
+    async signup(authCredentialsDto: AuthCredentialsDto): Promise<void> {
         return this.userRepository.createUser(authCredentialsDto);
     }
 
     // Login 확인
-    async signIn(authCredentialsDto:AuthCredentialsDto): Promise<{accessToken: string}> {
+    //http://localhost:3012/auth/signup?username=user1&password=1234
+    async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
         const { username, password } = authCredentialsDto;
+
+        // 입력받은 사용자 이름과 비밀번호를 콘솔에 출력
+        console.log('signIn username0:', username);
+        console.log('signIn password0:', password);
+
         const user = await this.userRepository.findOne({ where: { username } });
 
         // 콘솔 로그 추가
         console.log('Attempting login for user:', username);
 
-        if(user && (await bcrypt.compare(password, user.password))) {
+        if (user && (await bcrypt.compare(password, user.password))) {
             // 유저 토큰 생성 ( Secret + Payload )
 
             const Payload = { username };
             const accessToken = await this.jwtService.sign(Payload);
-            
+
             // 콘솔 로그 추가
             console.log('accessToken login for user:', accessToken);
 

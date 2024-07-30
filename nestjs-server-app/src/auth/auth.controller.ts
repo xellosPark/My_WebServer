@@ -17,6 +17,7 @@ export class AuthController {
 
     //http://localhost:3012/auth/signin?username=%ED%99%8D%EA%B8%B8%EB%8F%993&password=1234
     //http://localhost:3012/auth/signin?username=홍길동1&password=1234
+    //http://localhost:3012/auth/signin?username=user2&password=1234
     @Post('/signin')
     async signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<{accessToken: string}> {
         return this.authService.signIn(authCredentialsDto);

@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards, UsePipes, ValidationPipe,} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards,
+   UsePipes, ValidationPipe,Logger,} from '@nestjs/common';
 // import { Board, BoardStatus } from './board.model';
 import { BoardStatus } from './board-status.enum';
 import { Board } from './board.entity';
@@ -112,8 +113,9 @@ import { User } from 'src/auth/user.entity';
   @Controller('boards')
   @UseGuards(AuthGuard())
   export class BoardsController {
+    private logger = new Logger('board_logger');
     constructor(private boardsService: BoardsService) {}
-
+    
   // Dto 사용시
   // CURD -> C 부분 Creat Dto 이용방법
   @Post()
@@ -134,14 +136,23 @@ import { User } from 'src/auth/user.entity';
   getBoardById(@Param('id') id: number): Promise <Board> {
     return this.boardsService.getBoardById(id);
   }
-
-  
+ 
   // CURD -> D 부분 Delete
   // @Param('id', ParseIntPipe) 데코레이터를 사용하여 id 파라미터에 ParseIntPipe 파이프를 바인딩합니다.
   // 이렇게 하면 id 파라미터가 정수로 변환되어 라우트 핸들러에 전달됩니다.
+
+  // id만 보고 삭제하는 기능
+  // @Delete('/:id')
+  // deleteBoard(@Param('id', ParseIntPipe) id: number): Promise <void> {
+  //   return this.boardsService.delectBoard(id);
+  // }
+  // id및 유저 정보보고 삭제하는 기능\
+  // http://localhost:3012/boards/1
   @Delete('/:id')
-  deleteBoard(@Param('id', ParseIntPipe) id: number): Promise <void> {
-    return this.boardsService.delectBoard(id);
+  deleteBoard(@Param('id', ParseIntPipe) id: number,
+  @GetUser() user:User
+  ): Promise <void> {
+    return this.boardsService.delectBoard(id, user);
   }
 
   // CURD -> U 부분 Updata
@@ -155,8 +166,18 @@ import { User } from 'src/auth/user.entity';
 
   // CURD -> R 부분 Read
   // All Data
-  @Get('/')
-  getAllBoard(): Promise<Board[]> {
-    return this.boardsService.getAllBoards();
+
+  // @Get('/')
+  // getAllBoard(): Promise<Board[]> {
+  //   return this.boardsService.getAllBoards();
+  // }
+
+  // 전체 검새후 요청한 id 데이터만 다시 받기 ()
+  @Get()
+  // 모든 게시판 가져오기
+  getAllBoard(@GetUser() user: User): Promise<Board[]> {
+    // verbose 레벨의 로그로 사용자가 모든 게시판을 가져오려고 시도하는 메시지를 출력
+    this.logger.verbose(`User ${user.username} trying to get all boards`);
+    return this.boardsService.getAllBoards(user);
   }
 }
